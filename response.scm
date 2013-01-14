@@ -1,8 +1,8 @@
 (define nl "\r\n")
 (define write-response
   (lambda (resp port)
-    (let* ((status-code (number->string (cadr (assoc 'status resp))))
-          (status-name (cdr (lookup-status-code (cadr (assoc 'status resp)))))
+    (let* ((status-code (number->string (cdr (assoc 'status resp))))
+          (status-name (cdr (lookup-status-code (cdr (assoc 'status resp)))))
           (body        (cdr (assoc 'body resp)))
           (response    (set-response-header "Content-Length" (number->string (string-length body)) resp)))
     (display (string-append "HTTP/1.0 " status-code " " status-name nl) port)
@@ -17,8 +17,8 @@
 (define make-response
   (lambda ()
     ; Note to self. This object is immutable. Subseqent calls to set-foo return a mutated but new object.
-    '((status 200)
-      (body ""))))
+    '((status . 200)
+      (body . ""))))
 
 (define set-response-status
   (lambda (status response)
