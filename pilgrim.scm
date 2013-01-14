@@ -27,7 +27,7 @@
 (define handle
   (if threaded?
     real-handle
-    (lambda (in out) (thread-start! (make-thread (lambda () (real-handle in out)))))))
+    (lambda (in out) (thread-start! (make-thread (lambda () (real-handle in out handler)))))))
 
 (define start
   (lambda (port handler)
