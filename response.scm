@@ -1,7 +1,7 @@
 (define nl "\r\n")
 (define write-response
   (lambda (resp port)
-    (let* ((status-code (number->string (cdr (assoc 'status resp))))
+    (let* ((status-code (number->string (get-response-status resp)))
           (status-name (cdr (lookup-status-code (cdr (assoc 'status resp)))))
           (body        (cdr (assoc 'body resp)))
           (response    (set-response-header "Content-Length" (number->string (string-length body)) resp)))
@@ -19,6 +19,10 @@
     ; Note to self. This object is immutable. Subseqent calls to set-foo return a mutated but new object.
     '((status . 200)
       (body . ""))))
+
+(define get-response-status
+  (lambda (response)
+    (cdr (assoc 'status response))))
 
 (define set-response-status
   (lambda (status response)
