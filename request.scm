@@ -19,3 +19,12 @@
       ; TODO strip query strings
       (cadr tokenized-line))))
 
+(define make-fetcher
+  (lambda (key)
+    (lambda (request)
+      (let ((val (assoc key request)))
+        (if key
+          (cdr val)
+          #f)))))
+(define get-request-method    (make-fetcher 'method))
+(define get-request-path      (make-fetcher 'path))
