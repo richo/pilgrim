@@ -3,9 +3,9 @@
     (let ((first-line (read-line port)))
       (if (equal? first-line #!eof)
         #f
-        '((path . (parse-request-path first-line))
-          (method . (parse-request-method first-line))
-          (request-port . port))))))
+        `((path . ,(parse-request-path first-line))
+          (method . ,(parse-request-method first-line))
+          (request-port . ,port))))))
 
 (define parse-request-method
   (lambda (line)
