@@ -5,8 +5,8 @@
 (use utils)
 ; (require-extension intarweb)
 
-(require "response")
-(require "request")
+(load-relative "response.scm")
+(load-relative "request.scm")
 
 (define real-handle
   (lambda (in out handler)
