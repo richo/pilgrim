@@ -20,6 +20,10 @@
     '((status 200)
       (body ""))))
 
+(define set-response-status
+  (lambda (status response)
+    (alist-update 'status status response)))
+
 (define set-response-body
   (lambda (body response)
     (alist-update 'body body response)))
