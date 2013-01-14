@@ -1,8 +1,4 @@
-((files
-   "pilgrim.scm"
-   "request.scm"
-   "response.scm"
-   )
+((files "README.md" "pilgrim.meta" "pilgrim.release-info" "pilgrim.scm" "request.scm" "response.scm")
  (license "MIT")
  (category web)
  (author "Richo Healey")

@@ -1,3 +1,4 @@
 (repo git "git://github.com/richo/pilgrim.git")
 
 (uri targz "https://github.com/richo/{egg-name}/tarball/{egg-release}")
+(release "0.0.1")
