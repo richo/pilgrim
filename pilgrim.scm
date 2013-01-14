@@ -30,11 +30,11 @@
 (define handle
   (if threaded?
     real-handle
-    (lambda (in out) (thread-start! (make-thread (lambda () (real-handle in out handler)))))))
+    (lambda (in out handler) (thread-start! (make-thread (lambda () (real-handle in out handler)))))))
 
 (define start
   (lambda (port handler)
-    (letrec ((sock (tcp-listen (string->number (get-environment-variable "PORT"))))
+    (letrec ((sock (tcp-listen port))
       (mainloop (lambda ()
         (let-values (((s-in s-out) (tcp-accept sock)))
           (handle s-in s-out handler)
