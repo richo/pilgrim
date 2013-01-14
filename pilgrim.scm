@@ -15,15 +15,12 @@
   (lambda (in out handler)
     ; We're lazy- we can find out everything about the request that we care
     ; about from it's first line
-    (let ((line (read-line in)))
-      (if (not (equal? line #!eof))
-        (let ((request-path (get-request-path line))
-           (request-method (get-request-method line))
-           (request '((path . request-path) (method . request-method)))
-           (response (make-response)))
-      (write-response
-        (handler request response)
-        out)))
+    (let ((request (make-request in))
+          (response (make-response)))
+      (if request
+        (write-response
+          (handler request response)
+          out))
       (close-input-port in)
       (close-output-port out))))
 
