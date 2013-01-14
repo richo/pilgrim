@@ -8,6 +8,9 @@
 (load-relative "response.scm")
 (load-relative "request.scm")
 
+(define threaded?
+  #f)
+
 (define real-handle
   (lambda (in out handler)
     ; We're lazy- we can find out everything about the request that we care
