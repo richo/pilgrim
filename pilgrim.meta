@@ -1,0 +1,9 @@
+((files
+   "pilgrim.scm"
+   "request.scm"
+   "response.scm"
+   )
+ (license "MIT")
+ (category web)
+ (author "Richo Healey")
+ (synopsis "Barebones http kernel"))
