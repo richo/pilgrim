@@ -6,7 +6,7 @@
         `((path . ,(parse-request-path first-line))
           (method . ,(parse-request-method first-line))
           (headers . ,(parse-request-headers port))
-          (request-port . ,port))))))
+          (body . ,port))))))
 
 (define parse-request-method
   (lambda (line)
@@ -53,6 +53,7 @@
 (define get-request-method    (make-fetcher 'method))
 (define get-request-path      (make-fetcher 'path))
 (define get-request-headers   (make-fetcher 'headers))
+(define get-request-body      (make-fetcher 'body))
 
 (define get-request-header
   (lambda (request header)

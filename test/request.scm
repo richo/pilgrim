@@ -23,4 +23,10 @@
                      (equal? "lolol        lolol" (get-request-header request "X-spaces")))
         ))
 
+(test "should be able to read body"
+      "things are lols\r\nalso test string\r\n"
+      (let* ((port (open-input-string "GET /butts HTTP/1.1\r\nX-Foo: lulz\r\nX-Rawr: lols\r\nX-Spaces: lolol        lolol\r\n\r\nthings are lols\r\nalso test string\r\n"))
+             (request (make-request port)))
+        (read-string #f (get-request-body request))))
+
 (test-end)
