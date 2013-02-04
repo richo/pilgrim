@@ -6,7 +6,7 @@
         `((path . ,(parse-request-path first-line))
           (method . ,(parse-request-method first-line))
           (headers . ,(parse-request-headers port))
-          (body . ,port))))))
+          (body-port . ,port))))))
 
 (define parse-request-method
   (lambda (line)
@@ -53,7 +53,10 @@
 (define get-request-method    (make-fetcher 'method))
 (define get-request-path      (make-fetcher 'path))
 (define get-request-headers   (make-fetcher 'headers))
-(define get-request-body      (make-fetcher 'body))
+(define get-request-body-port (make-fetcher 'body-port))
+(define get-request-body      (lambda (request)
+                                (let ((bytes (get-request-header request "Content-Length")))
+                                  (read-string (if bytes (string->number bytes) #f) (get-request-body-port request)))))
 
 (define get-request-header
   (lambda (request header)
