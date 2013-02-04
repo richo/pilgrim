@@ -5,6 +5,7 @@
         #f
         `((path . ,(parse-request-path first-line))
           (method . ,(parse-request-method first-line))
+          (headers . ,(parse-request-headers port))
           (request-port . ,port))))))
 
 (define parse-request-method
@@ -19,6 +20,28 @@
       ; TODO strip query strings
       (cadr tokenized-line))))
 
+(define parse-header
+  (lambda (line)
+    (let ((index (string-index line #\:)))
+      `(,(string-upcase (substring line 0 index)) . ,(string-trim (substring line (+ index 1)))))))
+
+(define parse-request-headers
+  (lambda (port)
+    (call/cc (lambda (return)
+      (letrec ((loop (lambda (current)
+        (let ((this-line (read-line port)))
+          (cond
+            ((equal? this-line #!eof)
+             (return current))
+            ((equal? this-line "")
+             (return current))
+            (else
+             (loop (alist-update
+                     (car (parse-header this-line))
+                     (cdr (parse-header this-line))
+                     current))))))))
+        (loop '()))))))
+
 (define make-fetcher
   (lambda (key)
     (lambda (request)
@@ -26,5 +49,15 @@
         (if key
           (cdr val)
           #f)))))
+
 (define get-request-method    (make-fetcher 'method))
 (define get-request-path      (make-fetcher 'path))
+(define get-request-headers   (make-fetcher 'headers))
+
+(define get-request-header
+  (lambda (request header)
+    (let* ((headers (get-request-headers request))
+           (val (assoc (string-upcase header) headers)))
+      (if val
+        (cdr val)
+        #f))))
