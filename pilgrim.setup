@@ -1,0 +1,6 @@
+;; pilgrim.setup
+;;
+
+(compile -s pilgrim.scm)
+
+(install-extension 'pilgrim "pilgrim.so")
