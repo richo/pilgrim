@@ -3,7 +3,6 @@
 (use tcp)
 (use posix)
 (use utils)
-; (require-extension intarweb)
 
 (load-relative "response.scm")
 (load-relative "request.scm")
