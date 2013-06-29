@@ -18,7 +18,7 @@ example usage
 
 (require "pilgrim")
 
-(start 9001 (lambda (request response)
+(start 9001 #f (lambda (request response)
                   (let ((request-path (get-request-path request)))
                     (cond
                       ((equal? request-path "/")
