@@ -7,8 +7,7 @@
 (load-relative "response.scm")
 (load-relative "request.scm")
 
-(define handle
-  (lambda (in out handler)
+(define (handle in out handler)
     ; We're lazy- we can find out everything about the request that we care
     ; about from it's first line
     (let ((request (make-request in))
@@ -18,17 +17,15 @@
           (handler request response)
           out))
       (close-input-port in)
-      (close-output-port out))))
+      (close-output-port out)))
 
-(define handle-in-thread
-  (lambda (in out handler)
-    (thread-start! (make-thread (lambda () (real-handle in out handler))))))
+(define (handle-in-thread in out handler)
+    (thread-start! (make-thread (lambda () (real-handle in out handler)))))
 
-(define start
-  (lambda (port threaded? handler)
+(define (start port threaded? handler)
     (letrec ((sock (tcp-listen port))
       (mainloop (lambda ()
         (let-values (((s-in s-out) (tcp-accept sock)))
           ((if threaded? handle-in-thread handle) s-in s-out handler)
           (mainloop)))))
-      (mainloop))))
+      (mainloop)))
