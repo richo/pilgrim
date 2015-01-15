@@ -1,6 +1,5 @@
 (define nl "\r\n")
-(define write-response
-  (lambda (resp port)
+(define (write-response resp port)
     (let* ((status-code (number->string (get-response-status resp)))
           (status-name (cdr (lookup-status-code (cdr (assoc 'status resp)))))
           (body        (cdr (assoc 'body resp)))
@@ -12,33 +11,27 @@
                            (display (string-append header ": " value nl) port)))))
               response)
     (display nl port)
-    (display body port))))
+    (display body port)))
 
-(define make-response
-  (lambda ()
+(define (make-response)
     ; Note to self. This object is immutable. Subseqent calls to set-foo return a mutated but new object.
     '((status . 200)
-      (body . ""))))
+      (body . "")))
 
-(define get-response-status
-  (lambda (response)
-    (cdr (assoc 'status response))))
+(define (get-response-status response)
+    (cdr (assoc 'status response)))
 
-(define set-response-status
-  (lambda (status response)
-    (alist-update 'status status response)))
+(define (set-response-status status response)
+    (alist-update 'status status response))
 
-(define set-response-body
-  (lambda (body response)
-    (alist-update 'body body response)))
+(define (set-response-body body response)
+    (alist-update 'body body response))
 
-(define set-response-header
-  (lambda (header value response)
+(define (set-response-header header value response)
     ; TODO Potentially stringify headers here?
-    (alist-update header value response)))
+    (alist-update header value response))
 
-(define lookup-status-code ; TODO Rename saner
-  (lambda (code)
+(define (lookup-status-code code) ; TODO Rename saner
   (assoc code
 '((100 . "Continue")
   (101 . "Switching Protocols")
@@ -79,4 +72,4 @@
   (502 . "Bad Gateway")
   (503 . "Service Unavailable")
   (504 . "Gateway Time-out")
-  (505 . "HTTP Version not supported")))))
+  (505 . "HTTP Version not supported"))))
