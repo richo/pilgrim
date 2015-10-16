@@ -3,6 +3,7 @@
       (if (equal? first-line #!eof)
         #f
         `((path . ,(parse-request-path first-line))
+          (query . ,(parse-request-query first-line))
           (method . ,(parse-request-method first-line))
           (headers . ,(parse-request-headers port))
           (body-port . ,port)))))
@@ -10,12 +11,24 @@
 (define (parse-request-method line)
     (car (string-tokenize line)))
 
-(define (parse-request-path line)
-  ; Maximum ghetto. Expect a line like:
-  ; GET /index.html HTTP/1.1
+(define (extract-path line)
     (let ((tokenized-line (string-tokenize line)))
-      ; TODO strip query strings
       (cadr tokenized-line)))
+
+(define (parse-request-query line)
+    (let* ((path (extract-path line))
+           (idx (string-index path #\?)))
+      (if idx
+        (substring path (+ idx 1))
+        #f)))
+
+(define (parse-request-path line)
+    (let* ((path (extract-path line))
+           (idx (string-index path #\?)))
+      (if idx
+        (substring path 0 idx)
+        path)))
+
 
 (define (parse-header line)
     (let ((index (string-index line #\:)))
@@ -46,6 +59,7 @@
 
 (define get-request-method    (make-fetcher 'method))
 (define get-request-path      (make-fetcher 'path))
+(define get-request-query     (make-fetcher 'query))
 (define get-request-headers   (make-fetcher 'headers))
 (define get-request-body-port (make-fetcher 'body-port))
 (define get-request-body      (lambda (request)

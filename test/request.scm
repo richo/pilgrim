@@ -12,6 +12,24 @@
              (request (make-request port)))
         (get-request-path request)))
 
+(test "should_parse_path_with_query"
+      "/butts"
+      (let* ((port (open-input-string "GET /butts?hi=there HTTP/1.1"))
+             (request (make-request port)))
+        (get-request-path request)))
+
+(test "should_parse_query"
+      "hi=there"
+      (let* ((port (open-input-string "GET /?hi=there HTTP/1.1"))
+             (request (make-request port)))
+        (get-request-query request)))
+
+(test "should_parse_query_with_path"
+      "hi=there"
+      (let* ((port (open-input-string "GET /butts?hi=there HTTP/1.1"))
+             (request (make-request port)))
+        (get-request-query request)))
+
 (test-group "should_parse_headers"
       (let* ((port (open-input-string "GET /butts HTTP/1.1\r\nX-Foo: lulz\r\nX-Rawr: lols\r\nX-Spaces: lolol        lolol\r\n"))
              (request (make-request port)))
