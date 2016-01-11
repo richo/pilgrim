@@ -20,7 +20,7 @@
       (close-output-port out)))
 
 (define (handle-in-thread in out handler)
-    (thread-start! (make-thread (lambda () (real-handle in out handler)))))
+    (thread-start! (make-thread (lambda () (handle in out handler)))))
 
 (define (start port threaded? handler)
     (letrec ((sock (tcp-listen port))
