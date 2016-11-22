@@ -6,7 +6,7 @@
   (import data-structures)
   (use srfi-13)
   (use srfi-18)
-  (use tcp)
+  (use tcp6)
   (use posix)
   (use utils)
 
