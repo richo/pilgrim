@@ -1,6 +1,7 @@
 ;; pilgrim.setup
 ;;
 
-(compile -s pilgrim.scm)
+(compile -s -O2 -d1 pilgrim.scm -j pilgrim)
+(compile -s pilgrim.import.scm -O2 -d0)
 
-(install-extension 'pilgrim "pilgrim.so")
+(install-extension 'pilgrim '("pilgrim.so" "pilgrim.import.so"))
