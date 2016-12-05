@@ -2,4 +2,5 @@
  (license "MIT")
  (category web)
  (author "Richo Healey")
- (synopsis "Barebones http kernel"))
+ (synopsis "Barebones http kernel")
+ (depends tcp6))
