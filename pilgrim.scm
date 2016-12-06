@@ -1,5 +1,5 @@
 (module pilgrim
-    (export start make-request)
+    (export *)
   (import scheme)
   (import chicken)
   (import extras)
